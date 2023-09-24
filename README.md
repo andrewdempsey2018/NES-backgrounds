@@ -1,6 +1,4 @@
-# NES input
-
-Use the up / down / left / right buttons on the NES controller to move the ship around on screen
+# NES backgrounds
 
 ![screenshot](scrshot.png)
 
