@@ -4,9 +4,9 @@ Backgrounds are made up of images held in pattern table 1:
 
 ![pattern_tables](assets/pattern_tables.png)
 
-Here we see pattern table 0 (top) and pattern table 1 below. Pattern table 0 is concerned with sprites whilst pattern table 1 is concerned with background graphics. Each 8 * 8 tile is refenced by a byte. The top row in pattern table 0 is refernced with $00 - $0f. The second row from the top is referenced with $10 - $1f and so on down to the bottom row of pattern table 0 which is referenced by $f0 - $ff.
+Here we see pattern table 0 (top) and pattern table 1 below. Pattern table 0 is concerned with sprites whilst pattern table 1 is concerned with background graphics. Each 8 * 8 tile is referenced by a byte. The top row in pattern table 0 is referenced with $00 - $0f. The second row from the top is referenced with $10 - $1f and so on down to the bottom row of pattern table 0 which is referenced by $f0 - $ff.
 
-For pattern table 1, the references are the same, so, the top row in pattern table 1 is refernced with $00 - $0f. The second row from the top is referenced with $10 - $1f and so on down to the bottom row of pattern table 1 which is referenced by $f0 - $ff.
+For pattern table 1, the references are the same, so, the top row in pattern table 1 is referenced with $00 - $0f. The second row from the top is referenced with $10 - $1f and so on down to the bottom row of pattern table 1 which is referenced by $f0 - $ff.
 
 Drawing a background on the NES requires three components:
 
@@ -22,11 +22,11 @@ A nametable is a 1024 byte area of memory used by the PPU to lay out backgrounds
 
 ![nametables diagram](assets/four_nametables.png)
 
-The NES has four logical nametables, arranged in a 2x2 pattern. Each occupies a 1 KiB chunk of PPU address space, starting at $2000 at the top left, $2400 at the top right, $2800 at the bottom left, and $2C00 at the bottom right. The NES system board itself has only 2 KiB of VRAM (called CIRAM, stored in a separate SRAM chip), enough for two physical nametables. Cartridges with additional ran allow use of all four nametables.
+The NES has four logical nametables, arranged in a 2x2 pattern. Each occupies a 1kb chunk of PPU address space, starting at $2000 at the top left, $2400 at the top right, $2800 at the bottom left, and $2C00 at the bottom right. The NES system board itself has only 2kb of VRAM, enough for two physical nametables. Cartridges with additional ran allow use of all four nametables.
 
 ![scrshot_pal](assets/tiles.png)
 
-Here we see a NES screen at resolution 256 * 240 pixels. We see that it is covered in 960 tiles. Each tile is 8 * 8 pixels. There are 30 rows of tiles and each row contains 32 tiles. In the above picture, we see that there are 32 tiles at the top and 32 at the bottom coloured red - these tiles will not be rendered on NTSC systems (although we can still maniputate them in our code, they will not be drawn). These tiles *are* drawn on PAL systems.
+Here we see a NES screen at resolution 256 * 240 pixels. We see that it is covered in 960 tiles. Each tile is 8 * 8 pixels. There are 30 rows of tiles and each row contains 32 tiles. In the above picture, we see that there are 32 tiles at the top and 32 at the bottom coloured red - these tiles will not be rendered on NTSC systems (although we can still manipulate them in our code, they will not be drawn). These tiles *are* drawn on PAL systems.
 
 A full nametable of 960 bytes would look something like this:
 
@@ -96,7 +96,7 @@ nametable:
 
 If we can only loop through a maximum of 256 values, we need a more advanced way of looping - one that will allow us to go above the 256 limit imposed on us by the hardware.
 
-For ease of explaination, *bg_easy.asm* will demonstrate a background pattern limited to 256 bytes. *bg_more_tiles.asm* will demonstrate how to load the full 960 bytes of a nametable using an advanced looping technique.
+For ease of explanation, *bg_easy.asm* will demonstrate a background pattern limited to 256 bytes. *bg_more_tiles.asm* will demonstrate how to load the full 960 bytes of a nametable using an advanced looping technique.
 
 ## Palette
 
@@ -110,6 +110,12 @@ The background palette is held at PPU address $3F00 to $3f0f and the sprite pale
 #### *NEVER use colour $0D on the NES - this colour can damage certain types of TV's.*
 
 ## Attribute table
+
+An attribute table is a 64-byte array at the end of each nametable that controls which palette is assigned to each part of the background.
+
+Each attribute table, starting at $23C0, $27C0, $2BC0, or $2FC0, is arranged as an 8x8 byte array:
+
+![attribute table](assets/attribute_table.png)
 
 ![scrshot_pal](assets/scrshot_pal.png)
 
