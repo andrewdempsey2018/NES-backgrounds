@@ -14,6 +14,12 @@ Drawing a background on the NES requires three components:
 2. A palette
 3. An attribute table
 
+*Nametables* mainly deal with which piece of graphics is displayed for each tile. Additionally, as nametables are read into memory in sequence, they effectively determine the screen position of each tile.
+
+The *palette* is 16 bytes long and is split into 4 groups - each group represents 4 colours. The palette is used along with the attribute table to apply colour to the background tiles.
+
+*Attribute table*
+
 ## Nametable
 
 A nametable represents one whole screen of tiles. The nametable holds a byte for each tile on the screen. This byte corresponds with the piece of graphics data held the pattern table 1 which we want to display in that particular tile.
@@ -100,8 +106,7 @@ For ease of explanation, *bg_easy.asm* will demonstrate a background pattern lim
 
 ## Palette
 
-
-Our palette consists of 16 bytes - and these 16 bytes are grouped into 4 sub groups. A tile can be coloured by one of these sub groups at a time.
+Our palette consists of 16 bytes - and these 16 bytes are grouped into 4 sub groups. A tile can be coloured by one of these sub groups at a time. You'll notice that the first byte of each sub palette is the same - this is known as a 'backdrop colour' and it is essentially used for transparency.
 
 ![paletteinfo](assets/paletteinfo.png)
 
@@ -111,23 +116,34 @@ The background palette is held at PPU address $3F00 to $3f0f and the sprite pale
 
 ## Attribute table
 
-An attribute table is a 64-byte array at the end of each nametable that controls which palette is assigned to each part of the background.
+Each nametable has what is known as an 'attribute table' located in memory right after the nametable itself. The attribute table deals with adding palette data to the background.
 
 Each attribute table, starting at $23C0, $27C0, $2BC0, or $2FC0, is arranged as an 8x8 byte array:
 
 ![attribute table](assets/attribute_table.png)
 
-![scrshot_pal](assets/scrshot_pal.png)
+An attribute table is split up into 64 segments and each of these 64 segments is further split up into 4 sub segments (these 4 sub segments are often referred to as 'quadrants').
 
-Pal systems run slower however, an additional 8 pixels are drawn at both the top and bottom of the screen.
+Each of the 64 segments in an attribute table is referenced by a byte and it is common for coders to use binary when working with these particular bytes as we need easy control over each bit in these bytes. 
 
-![scrshot_ntsc](assets/scrshot_ntsc.png)
+We use bits 7 & 6 to colour the bottom right quadrant of its parent segment, bits 5 & 4 to colour the bottom left quadrant of its parent segment, bits 3 & 2 to colour the top right quadrant of its parent segment and finally bits 1 & 0 to colour the top left quadrant of its parent segment.
 
-NTSC systems run faster however, on both the top and bottom of the screen, 8 pixels are not rendered.
+![quadrants](assets/quadrants.png)
 
+Remember that:
 
+```
+00 = 0
+01 = 1
+10 = 2
+11 = 3
+```
 
-![pattern_tables](assets/pattern_tables.png)
+Remember that our palette is split up into 4 sections. So, for example, setting bits 7 and 6 in an attribute table byte to 00 would select the first palette section to colour the bottom right quadrant of its parent segment. As another example, setting bits 1 and 0 in an attribute table byte to 11 would select the fourth palette section to colour the top left quadrant of its parent segment.
+
+### Screenshots
+
+![screenshot1](assets/screenshot1.png)
 
 ## How to assemble
 
