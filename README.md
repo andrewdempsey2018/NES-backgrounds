@@ -187,9 +187,11 @@ https://www.cc65.org/
 
 ## NEXXT
 
-Nexxt was used to create *nametable.nam*
+Nexxt was used to create *level1.nam*
 
 https://frankengraphics.itch.io/nexxt
+
+Nesst will also produce a *.nam* file. The *.nam* contains the nametable along with the attribute table.
 
 ## More info
 

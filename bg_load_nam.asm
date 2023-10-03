@@ -108,9 +108,9 @@ loadWorld:
     lda (world), y
     sta $2007
     iny
-    cpx #$03
+    cpx #$04
     bne :+
-    cpy #$c0
+    cpy #$00
     beq doneLoadingWorld
 :
     cpy #$00
@@ -121,25 +121,6 @@ loadWorld:
 
 doneLoadingWorld:
     ldx #$00
-
-;each nametable has an associated attribute table
-;the nametable takes up 960 bytes and the remaining 64 bytes belong to the attribute table (960 + 64 = 1,024)
-;as the first nametable starts at $2000 and takes up 960 bytes, the attributes start at $23c0 (960 decimal = 3c0 hex)
-loadAttribute:
-    lda $2002 ;read PPU status to reset the high/low latch
-    lda #$23
-    sta $2006 ;write the high byte of $23c0 address
-    lda #$c0
-    sta $2006 ;write the low byte of $23c0 address
-    ldx #$00 ;start out at 0
-
-;load all 64 attribues for this nametable
-loadAttributeLoop:
-    lda attribute, x ;load data from address (attribute + the value in x)
-    sta $2007 ;write to PPU
-    inx
-    cpx #$40 ;compare x to hex $40, decimal 64 - copying 64 bytes
-    bne loadAttributeLoop
 
 ;enable interrupts
     cli
@@ -170,12 +151,6 @@ paletteData:
 
 nametable:
     .incbin "level1.nam"
-
-attribute:
-    .byte $00,$00,$00,$00,$00,$80,$00,$00,$00,$00,$00,$00,$cc,$ff,$33,$00
-    .byte $00,$80,$00,$00,$00,$00,$00,$00,$00,$cc,$00,$00,$80,$00,$00,$00
-    .byte $00,$a8,$22,$00,$cc,$00,$20,$00,$f0,$aa,$aa,$c8,$cc,$80,$a3,$20
-    .byte $aa,$aa,$aa,$aa,$aa,$aa,$aa,$aa,$0a,$0a,$0a,$0a,$0a,$0a,$0a,$0a
 
 .segment "CODE"
 
