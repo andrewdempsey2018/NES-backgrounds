@@ -191,7 +191,13 @@ Nexxt was used to create *level1.nam*
 
 https://frankengraphics.itch.io/nexxt
 
-Nesst will also produce a *.nam* file. The *.nam* contains the nametable along with the attribute table.
+The *.nam* files contain a nametable along with its attribute table in one continuous byte table of 1024 bytes
+
+## Nesst (Nes screen tool)
+
+Nesst will do similar work to Nexxt
+
+https://www.romhacking.net/utilities/802/
 
 ## More info
 
