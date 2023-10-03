@@ -143,7 +143,19 @@ Remember that our palette is split up into 4 sections. So, for example, setting 
 
 ### Screenshots
 
+*bg_easy.asm:*
+
 ![screenshot1](assets/screenshot1.png)
+
+*bg_more_tiles.asm (NTSC)*
+
+![screenshotntsc](assets/screenshotntsc.png)
+
+*bg_more_tiles.asm (PAL)*
+
+![screenshotpal](assets/screenshotpal.png)
+
+(Notice that there are more tiles displayed in the PAL version)
 
 ## How to assemble
 
@@ -154,6 +166,8 @@ Step 1: Assemble asm file into an object file
 Step 2: link the object file to the nes target (yields a .NES rom for use with emulator, tested on Fceux)
 
 **ld65 filename.o -o filename.nes -t nes**
+
+# Info
 
 # Info
 
@@ -170,6 +184,12 @@ https://fceux.com/web/home.html
 Assembler used
 
 https://www.cc65.org/
+
+## NEXXT
+
+Nexxt was used to create *nametable.nam*
+
+https://frankengraphics.itch.io/nexxt
 
 ## More info
 
